@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "880781574884",
+    "firebase_url": "https://pal-s-hand.firebaseio.com",
+    "project_id": "pal-s-hand",
+    "storage_bucket": "pal-s-hand.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:880781574884:android:d60677852fa21b59e122f1",
+        "android_client_info": {
+          "package_name": "com.uninorte.palshand"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "880781574884-k5ubfk7oviipsnakotohc7vvdosj8piv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD4eXWhxxk7NviapM0dv9e-bYxeqBO1aTc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "880781574884-k5ubfk7oviipsnakotohc7vvdosj8piv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
