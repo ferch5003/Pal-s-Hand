@@ -65,12 +65,14 @@ class SignupView extends StatelessWidget {
                           SizedBox(
                             height: 20,
                           ),
-                          SubmitButtonRegister(callback: () async {
-                            await model.signUp(
-                                name: _nameController.text,
-                                email: _emailController.text,
-                                password: _passwordController.text);
-                          }),
+                          model.isLoading
+                              ? CircularProgressIndicator()
+                              : SubmitButtonRegister(callback: () async {
+                                  await model.signUp(
+                                      name: _nameController.text,
+                                      email: _emailController.text,
+                                      password: _passwordController.text);
+                                }),
                           Expanded(
                             flex: 2,
                             child: SizedBox(),

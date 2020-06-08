@@ -20,6 +20,9 @@ dependencies:
   flutter:
     sdk: flutter
 
+  # HTTP Client
+  dio: ^3.0.9
+
   # JSON annotation
   json_annotation: ^3.0.1
   

@@ -13,12 +13,18 @@ class SignupViewModel extends BaseModel {
   final DialogService _dialogService = locator<DialogService>();
   final NavigationService _navigationService = locator<NavigationService>();
 
+  bool _isLoading = false;
+
+  bool get isLoading => _isLoading;
+
   Future signUp({
     @required String name,
     @required String email,
     @required String password,
   }) async {
-    setState(ViewState.Busy);
+    _isLoading = true;
+
+    setState(ViewState.Idle);
 
     var result = await _authenticationService.signupWithEmail(
       name: name,
@@ -26,22 +32,28 @@ class SignupViewModel extends BaseModel {
       password: password,
     );
 
-    setState(ViewState.Idle);
-
     if (result is bool) {
       if (result) {
-        _navigationService.navigateTo('home');
+        _isLoading = false;
+        //_navigationService.navigateTo('home');
       } else {
         await _dialogService.showDialog(
           title: 'Sign Up Failure',
           description: 'General sign up failure. Please try again later',
         );
+
+        _isLoading = false;
+
+        setState(ViewState.Idle);
       }
     } else {
       await _dialogService.showDialog(
         title: 'Sign Up Failure',
         description: result,
       );
+      _isLoading = false;
+
+      setState(ViewState.Idle);
     }
   }
 }

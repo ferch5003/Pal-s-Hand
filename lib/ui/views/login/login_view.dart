@@ -56,13 +56,15 @@ class LoginView extends StatelessWidget {
                       SizedBox(
                         height: 20,
                       ),
-                      SubmitButtonLogin(
-                        callback: () async {
-                          await model.login(
-                              email: _emailController.text,
-                              password: _passwordController.text);
-                        },
-                      ),
+                      model.isLoading
+                          ? CircularProgressIndicator()
+                          : SubmitButtonLogin(
+                              callback: () async {
+                                model.login(
+                                    email: _emailController.text,
+                                    password: _passwordController.text);
+                              },
+                            ),
                       SizedBox(
                         height: 10,
                       ),
@@ -72,13 +74,15 @@ class LoginView extends StatelessWidget {
                       SizedBox(
                         height: 10,
                       ),
-                      SubmitButtonGoogle(
-                        callback: () async {
-                          await model.loginWithGoogle(
-                              email: _emailController.text,
-                              password: _passwordController.text);
-                        },
-                      ),
+                      model.isLoadingGoogle
+                          ? CircularProgressIndicator()
+                          : SubmitButtonGoogle(
+                              callback: () async {
+                                await model.loginWithGoogle(
+                                    email: _emailController.text,
+                                    password: _passwordController.text);
+                              },
+                            ),
                       Expanded(flex: 2, child: SizedBox()),
                     ],
                   ),

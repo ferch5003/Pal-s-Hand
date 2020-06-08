@@ -45,8 +45,10 @@ class MyApp extends StatelessWidget {
           builder: (context, snapshot) {
             switch (snapshot.connectionState) {
               case ConnectionState.waiting:
-                return Center(
-                  child: CircularProgressIndicator(),
+                return Scaffold(
+                  body: Center(
+                    child: CircularProgressIndicator(),
+                  ),
                 );
                 break;
               default:
