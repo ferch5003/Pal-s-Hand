@@ -20,6 +20,9 @@ dependencies:
   flutter:
     sdk: flutter
 
+  # Autosize Text 
+  auto_size_text: ^2.1.0
+
   # HTTP Client
   dio: ^3.0.9
 
