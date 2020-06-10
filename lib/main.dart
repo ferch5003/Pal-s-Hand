@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
         navigatorKey: locator<NavigationService>().navigationKey,
         onGenerateRoute: MainRouter.generateRoute,
         home: StreamBuilder<FirebaseUser>(
-          stream: user,
+          stream: user.onAuthStateChanged,
           builder: (context, snapshot) {
             switch (snapshot.connectionState) {
               case ConnectionState.waiting:

@@ -30,6 +30,8 @@ class _DialogManagerState extends State<DialogManager> {
     showDialog(
         context: context,
         builder: (context) => AlertDialog(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20.0))),
               title: Text(request.title),
               content: Text(request.description),
               actions: <Widget>[

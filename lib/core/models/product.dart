@@ -7,11 +7,12 @@ class Product {
   String name;
   double price;
   String category;
+  int quantity;
 
+  Product({this.name, this.price, this.category, this.quantity = 0});
 
-  Product({this.name, this.price,this.category});
-
-  factory Product.fromJson(Map<String, dynamic> json) => _$ProductFromJson(json);
+  factory Product.fromJson(Map<String, dynamic> json) =>
+      _$ProductFromJson(json);
 
   Map<String, dynamic> toJson() => _$ProductToJson(this);
 }

@@ -8,8 +8,8 @@ class AuthenticationService {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final GoogleSignIn googleSignIn = GoogleSignIn();
 
-  Stream<FirebaseUser> get user {
-    return _firebaseAuth.onAuthStateChanged;
+  FirebaseAuth get user {
+    return _firebaseAuth;
   }
 
   Future loginWithGoogle({
@@ -78,12 +78,10 @@ class AuthenticationService {
     @required String password,
   }) async {
     try {
-      print('email=$email');
+      
       FirebaseUser user = (await _firebaseAuth.createUserWithEmailAndPassword(
               email: email, password: password))
           .user;
-
-      print('user=${user.email}}');
 
       await DatabaseService(uid: user.uid)
           .updateUserData(name: name, email: email, image: '');
