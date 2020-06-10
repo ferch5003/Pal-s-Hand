@@ -35,11 +35,11 @@ class SignupViewModel extends BaseModel {
     if (result is bool) {
       if (result) {
         _isLoading = false;
-        //_navigationService.navigateTo('home');
+        _navigationService.pop();
       } else {
         await _dialogService.showDialog(
-          title: 'Sign Up Failure',
-          description: 'General sign up failure. Please try again later',
+          title: 'Fallo en el Registro',
+          description: 'Fallo general de registro. Vuelva a intentarlo mas tarde',
         );
 
         _isLoading = false;
@@ -48,7 +48,7 @@ class SignupViewModel extends BaseModel {
       }
     } else {
       await _dialogService.showDialog(
-        title: 'Sign Up Failure',
+        title: 'Fallo en el Registro',
         description: result,
       );
       _isLoading = false;

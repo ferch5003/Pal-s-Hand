@@ -66,8 +66,8 @@ class LoginViewModel extends BaseModel {
         // _navigationService.navigateTo('/home');
       } else {
         await _dialogService.showDialog(
-          title: 'Login Failure',
-          description: 'Couldn\'t login at this moment. Please try again later',
+          title: 'Fallo en el Inicio de Sesión',
+          description: 'No se puede iniciar sesión actualmente. Vuelva a intentarlo mas tarde',
         );
         _isLoadingGoogle = false;
 
@@ -75,7 +75,7 @@ class LoginViewModel extends BaseModel {
       }
     } else {
       await _dialogService.showDialog(
-        title: 'Login Failure',
+        title: 'Fallo en el Inicio de Sesión',
         description: result,
       );
       _isLoadingGoogle = false;

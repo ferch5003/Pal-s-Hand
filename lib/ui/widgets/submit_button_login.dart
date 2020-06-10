@@ -28,7 +28,7 @@ class SubmitButtonLogin extends StatelessWidget {
                   colors: [Color(0xfffbb448), Color(0xfff7892b)]),
             ),
             padding: const EdgeInsets.all(10.0),
-            child: Text('Login',
+            child: Text('Iniciar Sesión',
                 style: TextStyle(fontSize: 20, color: Colors.white))));
   }
 }

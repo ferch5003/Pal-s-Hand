@@ -35,8 +35,11 @@ class SubmitButtonGoogle extends StatelessWidget {
                 ),
                 Align(
                   alignment: Alignment.center,
-                  child: Text('Login with Google',
-                      style: TextStyle(fontSize: 20, color: Colors.black45)),
+                  child: Container(
+                    margin: const EdgeInsets.only(left: 20.0),
+                    child: Text('Iniciar Sesión con Google',
+                        style: TextStyle(fontSize: 20, color: Colors.black45)),
+                  ),
                 ),
               ],
             )));

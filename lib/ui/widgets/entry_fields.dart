@@ -23,12 +23,15 @@ class EntryFields extends StatelessWidget {
             height: 10,
           ),
           TextFormField(
+              keyboardType: (title == 'Correo' || title == 'ID del correo')
+                  ? TextInputType.emailAddress
+                  : TextInputType.text,
               controller: textEditingController,
               validator: (value) {
                 if (value.isEmpty) {
-                  return 'Please enter the $title';
+                  return 'Por favor, digite el/la $title';
                 } else if (!value.contains('@')) {
-                  return 'use the @ char.';
+                  return 'Use el carcater @';
                 }
                 return null;
               },

@@ -17,12 +17,12 @@ class LoginView extends StatelessWidget {
     return Column(
       children: <Widget>[
         EntryFields(
-          title: "Email",
+          title: "Correo",
           isPassword: false,
           textEditingController: _emailController,
         ),
         EntryFields(
-          title: "Password",
+          title: "Contraseña",
           isPassword: true,
           textEditingController: _passwordController,
         ),
@@ -69,7 +69,7 @@ class LoginView extends StatelessWidget {
                         height: 10,
                       ),
                       Center(
-                        child: Text('OR'),
+                        child: Text('O'),
                       ),
                       SizedBox(
                         height: 10,

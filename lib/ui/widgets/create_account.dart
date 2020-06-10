@@ -10,7 +10,7 @@ class CreateAccountLabel extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Text(
-            'Don\'t have an account ?',
+            '¿No tienes un cuenta?',
             style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
           ),
           SizedBox(
@@ -21,7 +21,7 @@ class CreateAccountLabel extends StatelessWidget {
               Navigator.of(context).pushNamed('signup');
             },
             child: Text(
-              'Register',
+              'Registrate',
               style: TextStyle(
                   color: Color(0xfff79c4f),
                   fontSize: 13,

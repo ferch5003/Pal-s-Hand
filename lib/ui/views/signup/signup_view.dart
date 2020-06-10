@@ -16,17 +16,17 @@ class SignupView extends StatelessWidget {
     return Column(
       children: <Widget>[
         EntryFields(
-          title: "Username",
+          title: "Nombre de usuario",
           isPassword: false,
           textEditingController: _nameController,
         ),
         EntryFields(
-          title: "Email id",
+          title: "ID del correo",
           isPassword: false,
           textEditingController: _emailController,
         ),
         EntryFields(
-          title: "Password",
+          title: "Contraseña",
           isPassword: true,
           textEditingController: _passwordController,
         ),
