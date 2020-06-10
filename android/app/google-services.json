@@ -1,0 +1,63 @@
+{
+  "project_info": {
+    "project_number": "982672374435",
+    "firebase_url": "https://pal-s-hand-8cd31.firebaseio.com",
+    "project_id": "pal-s-hand-8cd31",
+    "storage_bucket": "pal-s-hand-8cd31.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:982672374435:android:40352d69454403c3569d16",
+        "android_client_info": {
+          "package_name": "com.example.pals_hand"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "982672374435-aaqg52pruv9b5m7mb15mlunbrm5ghutf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.pals_hand",
+            "certificate_hash": "7cf204bd35de1de18accd50bae814c931a64cd38"
+          }
+        },
+        {
+          "client_id": "982672374435-lgl15hcptsngv26al3phiv813vq3llop.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.pals_hand",
+            "certificate_hash": "2a3d75048c388e75a0871d297aa6a5e913ae1272"
+          }
+        },
+        {
+          "client_id": "982672374435-3m0qf1gsaj82k7smv19694fbekm13oia.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA4zx7evgiHJUM50ZVTbYzCZL7lDiwXU88"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "982672374435-3m0qf1gsaj82k7smv19694fbekm13oia.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "982672374435-cj1bvioq2ca0qa27qridtmtjl2t3a3hi.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.palsHand"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
