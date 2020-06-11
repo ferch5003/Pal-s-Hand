@@ -18,7 +18,8 @@ class ShoppingViewModel extends BaseModel {
 
       _ready = await DatabaseService(uid: user.uid).getReady();
 
-      QuerySnapshot snapshot = await DatabaseService(uid: user.uid).getProducts();
+      QuerySnapshot snapshot =
+          await DatabaseService(uid: user.uid).getProducts();
 
       productsList = snapshot.documents
           .map((product) => {
@@ -38,7 +39,8 @@ class ShoppingViewModel extends BaseModel {
 
       _ready = await DatabaseService(uid: user.uid).getReady();
 
-      QuerySnapshot snapshot = await DatabaseService(uid: user.uid).getFriendList();
+      QuerySnapshot snapshot =
+          await DatabaseService(uid: user.uid).getFriendList();
 
       productsList = snapshot.documents
           .map((product) => {
@@ -65,4 +67,16 @@ class ShoppingViewModel extends BaseModel {
     } catch (error) {}
     return userData;
   }
+
+  deleteAllProducts(uid, name, email, image) async {
+    try {
+      _ready = await DatabaseService(uid: uid).getReady();
+
+      if(_ready){
+        await DatabaseService(uid: uid).deleteAllProducts();
+        await DatabaseService(uid: uid).updateUserData(name: name, email: email, image: image);
+      }
+    } catch (error) {}
+  }
+
 }

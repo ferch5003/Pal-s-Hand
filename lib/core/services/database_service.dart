@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
 import 'package:pals_hand/core/models/product.dart';
 
 class DatabaseService {
@@ -12,9 +13,8 @@ class DatabaseService {
       {@required String name,
       @required String email,
       @required String image}) async {
-    final snapShot = await users.document(uid).get();
-    if (!snapShot.exists) {
-      await users.document(uid).setData({
+
+      await users.document(uid).updateData({
         'name': name,
         'email': email,
         'image': image,
@@ -23,7 +23,6 @@ class DatabaseService {
         'total': 0.0,
         'ready': false
       });
-    }
   }
 
   Future<bool> getReady() async {
@@ -68,6 +67,14 @@ class DatabaseService {
         .collection('products')
         .document(productId)
         .delete();
+  }
+
+  deleteAllProducts() {
+    users.document(uid).collection('products').getDocuments().then((snapshot) {
+      for (DocumentSnapshot ds in snapshot.documents) {
+        ds.reference.delete();
+      }
+    });
   }
 
   Future<QuerySnapshot> getFriendList() async {

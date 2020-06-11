@@ -68,12 +68,14 @@ class _ShoppingViewState extends State<ShoppingView> {
                               double total;
                               String thumbnail;
                               String friendList;
+                              String userEmail;
                               values.forEach((element) {
                                 if (element["uid"] == userID) {
                                   userName = element['name'];
-                                  total = element['total'];
+                                  total = element['total'].toDouble();
                                   thumbnail = element['image'];
                                   friendList = element['friend_list'];
+                                  userEmail = element['email'];
                                 }
                               });
 
@@ -89,12 +91,14 @@ class _ShoppingViewState extends State<ShoppingView> {
                               String friendUserName;
                               double friendTotal;
                               String friendThumbnail;
+                              String friendUserEmail;
 
                               values.forEach((element) {
                                 if (element["uid"] == friendList) {
                                   friendUserName = element['name'];
-                                  friendTotal = element['total'];
+                                  friendTotal = element['total'].toDouble();
                                   friendThumbnail = element['image'];
+                                  friendUserEmail = element['email'];
                                 }
                               });
 
@@ -144,6 +148,12 @@ class _ShoppingViewState extends State<ShoppingView> {
                                           onPressed: () {
                                             setState(() {
                                               pressGeoON = !pressGeoON;
+                                              if(cmbscritta){
+                                                locator<ShoppingViewModel>().deleteAllProducts(userID, userName, userEmail, thumbnail);
+                                                locator<ShoppingViewModel>().deleteAllProducts(friendList, friendUserName, friendUserEmail, friendThumbnail);
+                                                ViewState.Idle;
+                                                print('pressed');
+                                              }
                                               cmbscritta = !cmbscritta;
                                             });
                                           }),
@@ -292,7 +302,7 @@ class CustomListItem extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10.0),
       child: SizedBox(
-        height: 230,
+        height: 220,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
