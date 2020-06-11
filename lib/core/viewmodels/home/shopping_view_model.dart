@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:pals_hand/core/enums/viewstate.dart';
 import 'package:pals_hand/core/models/product.dart';
+import 'package:pals_hand/core/models/user.dart';
 import 'package:pals_hand/core/services/database_service.dart';
 
 import '../base_model.dart';
@@ -10,59 +12,49 @@ class ShoppingViewModel extends BaseModel {
 
   bool get ready => _ready;
 
-  Future<List<Map<dynamic, dynamic>>> getMyProducts() async {
-    List<Map<dynamic, dynamic>> productsList = List<Map<dynamic, dynamic>>();
+  Future<Map<String, dynamic>> getData() async {
+    Map<String, dynamic> data = Map<String, dynamic>();
 
-    try {
-      FirebaseUser user = await FirebaseAuth.instance.currentUser();
+    FirebaseUser authUser = await FirebaseAuth.instance.currentUser();
+    User user = User.fromJson(
+        (await DatabaseService(uid: authUser.uid).getUser()).data);
+    User friend = user.friendList == ''
+        ? null
+        : User.fromJson(
+            (await DatabaseService(uid: user.friendList).getUser()).data);
 
-      _ready = await DatabaseService(uid: user.uid).getReady();
+    bool ready = await DatabaseService(uid: authUser.uid).getReady();
 
-      QuerySnapshot snapshot = await DatabaseService(uid: user.uid).getProducts();
+    List<Product> myProds = List<Product>();
+    List<Product> friendProds = List<Product>();
 
-      productsList = snapshot.documents
-          .map((product) => {
-                'product': Product.fromJson(product.data),
-                'productid': product.documentID
-              })
-          .toList();
-    } catch (error) {}
-    return productsList;
+    QuerySnapshot myProdSnapshot =
+        await DatabaseService(uid: user.uid).getProducts();
+    QuerySnapshot friendProdSnapshot = user.friendList == ''
+        ? null
+        : await DatabaseService(uid: user.uid).getFriendList();
+
+    myProds = myProdSnapshot.documents
+        .map((product) => Product.fromJson(product.data))
+        .toList();
+    friendProds = user.friendList == ''
+        ? null
+        : friendProdSnapshot.documents
+            .map((product) => Product.fromJson(product.data))
+            .toList();
+
+    data = {
+      'user': user,
+      'friend': friend,
+      'myProds': myProds,
+      'friendProds': friendProds,
+      'ready': ready
+    };
+
+    return data;
   }
 
-  Future<List<Map<dynamic, dynamic>>> getMyFriendProducts() async {
-    List<Map<dynamic, dynamic>> productsList = List<Map<dynamic, dynamic>>();
-
-    try {
-      FirebaseUser user = await FirebaseAuth.instance.currentUser();
-
-      _ready = await DatabaseService(uid: user.uid).getReady();
-
-      QuerySnapshot snapshot = await DatabaseService(uid: user.uid).getFriendList();
-
-      productsList = snapshot.documents
-          .map((product) => {
-                'product': Product.fromJson(product.data),
-                'productid': product.documentID
-              })
-          .toList();
-    } catch (error) {}
-
-    return productsList;
-  }
-
-  Future<QuerySnapshot> getAllUsersData() async {
-    QuerySnapshot userData;
-
-    try {
-      FirebaseUser user = await FirebaseAuth.instance.currentUser();
-
-      _ready = await DatabaseService(uid: user.uid).getReady();
-
-      QuerySnapshot snapshot = await DatabaseService().getUsers();
-
-      userData = snapshot;
-    } catch (error) {}
-    return userData;
+  updateView() {
+    setState(ViewState.Idle);
   }
 }

@@ -8,6 +8,10 @@ class DatabaseService {
   // Collection reference
   final CollectionReference users = Firestore.instance.collection('users');
 
+  Future<DocumentSnapshot> getUser() async {
+    return users.document(uid).get();
+  }
+
   Future<QuerySnapshot> getUsers() async {
     return await users.getDocuments();
   }
@@ -30,16 +34,44 @@ class DatabaseService {
     }
   }
 
+  deliverReady() async {
+    DocumentSnapshot friend = await users.document(uid).get();
+    String friendId = friend.data['friend_list'];
+    await users.document(uid).updateData({'ready': true});
+    await users.document(friendId).updateData({'ready': true});
+  }
+
+  deliverFinished() async {
+    DocumentSnapshot friend = await users.document(uid).get();
+    String friendId = friend.data['friend_list'];
+    users.document(uid).collection('products').getDocuments().then((snapshot) {
+      for (DocumentSnapshot ds in snapshot.documents) {
+        ds.reference.delete();
+      }
+    });
+    users.document(friendId).collection('products').getDocuments().then((snapshot) {
+      for (DocumentSnapshot ds in snapshot.documents) {
+        ds.reference.delete();
+      }
+    });
+    await users.document(uid).updateData({
+      'friend_list': '',
+      'ready': false,
+      'total': 0.0,
+    });
+    await users.document(friendId).updateData({
+      'friend_list': '',
+      'ready': false,
+      'total': 0.0,
+    });
+  }
+
   Future<bool> getReady() async {
     return (await users.document(uid).get())['ready'];
   }
 
   Future<QuerySnapshot> getProducts() async {
     return await users.document(uid).collection('products').getDocuments();
-  }
-
-  Future<QuerySnapshot> getUsers() async {
-    return await users.getDocuments();
   }
 
   addProductData({@required Product product}) async {
@@ -74,9 +106,14 @@ class DatabaseService {
         .delete();
   }
 
+  Future<String> getFriend() async {
+    DocumentSnapshot list = await users.document(uid).get();
+    return list.data['friend_list'];
+  }
+
   Future<QuerySnapshot> getFriendList() async {
     DocumentSnapshot list = await users.document(uid).get();
-    String frienduid = list.data['uid'];
+    String frienduid = list.data['friend_list'];
     return await users
         .document(frienduid)
         .collection('products')

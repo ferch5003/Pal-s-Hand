@@ -24,24 +24,27 @@ class MyListViewModel extends BaseModel {
         productId: productId, product: product, factor: factor);
   }
 
+  Future<bool> isReady() async {
+    FirebaseUser user = await FirebaseAuth.instance.currentUser();
+
+    return _ready = await DatabaseService(uid: user.uid).getReady();
+  }
+
   Future<List<Map<dynamic, dynamic>>> getProducts() async {
     List<Map<dynamic, dynamic>> productsList = List<Map<dynamic, dynamic>>();
 
-    try {
-      FirebaseUser user = await FirebaseAuth.instance.currentUser();
+    FirebaseUser user = await FirebaseAuth.instance.currentUser();
 
-      _ready = await DatabaseService(uid: user.uid).getReady();
+    _ready = await DatabaseService(uid: user.uid).getReady();
 
-      QuerySnapshot snapshot =
-          await DatabaseService(uid: user.uid).getProducts();
+    QuerySnapshot snapshot = await DatabaseService(uid: user.uid).getProducts();
 
-      productsList = snapshot.documents
-          .map((product) => {
-                'product': Product.fromJson(product.data),
-                'productid': product.documentID
-              })
-          .toList();
-    } catch (error) {}
+    productsList = snapshot.documents
+        .map((product) => {
+              'product': Product.fromJson(product.data),
+              'productid': product.documentID
+            })
+        .toList();
 
     return productsList;
   }

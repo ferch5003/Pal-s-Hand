@@ -36,22 +36,48 @@ class _MyListViewState extends State<MyListView> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).pushReplacement(MaterialPageRoute(
-                          builder: (context) => AddProductView()));
-                    },
-                    child: Container(
-                      height: 50,
-                      color: Colors.transparent,
-                      margin: const EdgeInsets.only(top: 23),
-                      child: Row(
-                        children: <Widget>[
-                          AutoSizeText('Agregar productos'),
-                          Icon(Icons.local_grocery_store)
-                        ],
-                      ),
-                    ),
+                  Container(
+                    height: 50,
+                    color: Colors.transparent,
+                    margin: const EdgeInsets.only(top: 23),
+                    child: FutureBuilder<bool>(
+                        future: model.isReady(),
+                        builder: (context, snapshot) {
+                          switch (snapshot.connectionState) {
+                            case ConnectionState.waiting:
+                              return Container();
+                            default:
+                              if (snapshot.hasData) {
+                                bool ready = snapshot.data;
+                                return GestureDetector(
+                                  onTap: ready
+                                      ? null
+                                      : () {
+                                          Navigator.of(context).pushReplacement(
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      AddProductView()));
+                                        },
+                                  child: Row(
+                                    children: <Widget>[
+                                      Container(
+                                        child: ready
+                                            ? Text(
+                                                'Ya tiene un pedido en proceso')
+                                            : Text('Agregar producto'),
+                                      ),
+                                      Container(
+                                          child: ready
+                                              ? Icon(Icons.block)
+                                              : Icon(
+                                                  Icons.local_grocery_store)),
+                                    ],
+                                  ),
+                                );
+                              } else if (snapshot.hasError) {}
+                              return Container();
+                          }
+                        }),
                   )
                 ],
               ),
@@ -117,20 +143,23 @@ class _MyListViewState extends State<MyListView> {
                                                                   .category),
                                                           Positioned(
                                                             right: 0,
-                                                            child: DeleteButton(
-                                                                model: model,
-                                                                productId:
-                                                                    productId,
-                                                                product:
-                                                                    product,
-                                                                callback:
-                                                                    () async {
-                                                                  setState(() {
-                                                                    _products =
-                                                                        model
-                                                                            .getProducts();
-                                                                  });
-                                                                }),
+                                                            child: model.ready
+                                                                ? Container()
+                                                                : DeleteButton(
+                                                                    model:
+                                                                        model,
+                                                                    productId:
+                                                                        productId,
+                                                                    product:
+                                                                        product,
+                                                                    callback:
+                                                                        () async {
+                                                                      setState(
+                                                                          () {
+                                                                        _products =
+                                                                            model.getProducts();
+                                                                      });
+                                                                    }),
                                                           )
                                                         ],
                                                       ),
