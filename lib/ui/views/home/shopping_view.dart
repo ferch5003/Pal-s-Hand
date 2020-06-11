@@ -1,3 +1,4 @@
+import 'package:pals_hand/core/enums/viewstate.dart';
 import 'package:pals_hand/ui/widgets/image_category.dart';
 import 'package:flutter/material.dart';
 import 'package:pals_hand/core/viewmodels/base_view.dart';
@@ -24,6 +25,9 @@ class _ShoppingViewState extends State<ShoppingView> {
 
     _allUsersData = locator<ShoppingViewModel>().getAllUsersData();
   }
+
+  bool pressGeoON = false;
+  bool cmbscritta = false;
 
   @override
   Widget build(BuildContext context) {
@@ -77,9 +81,9 @@ class _ShoppingViewState extends State<ShoppingView> {
                                 total = 0;
                               }
 
-                              int contador = 2;
+                              int contador = 3;
                               if (friendList == "" || friendList == null) {
-                                contador = 1;
+                                contador = 2;
                               }
 
                               String friendUserName;
@@ -121,6 +125,30 @@ class _ShoppingViewState extends State<ShoppingView> {
                                           }
                                         });
                                   }
+                                  if (index == contador - 1) {
+                                    return Center(
+                                      child: RaisedButton(
+                                          shape: new RoundedRectangleBorder(
+                                              borderRadius:
+                                                  new BorderRadius.circular(
+                                                      18.0),
+                                              side: BorderSide(
+                                                  color: Colors.red)),
+                                          color: pressGeoON
+                                              ? Colors.blue
+                                              : Colors.red,
+                                          textColor: Colors.white,
+                                          child: cmbscritta
+                                              ? Text("Finalize")
+                                              : Text("Close"),
+                                          onPressed: () {
+                                            setState(() {
+                                              pressGeoON = !pressGeoON;
+                                              cmbscritta = !cmbscritta;
+                                            });
+                                          }),
+                                    );
+                                  }
                                   if (index == 1) {
                                     return FutureBuilder<
                                             List<Map<dynamic, dynamic>>>(
@@ -138,6 +166,7 @@ class _ShoppingViewState extends State<ShoppingView> {
                                           }
                                         });
                                   }
+
                                   return Container();
                                 },
                               );
@@ -263,7 +292,7 @@ class CustomListItem extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10.0),
       child: SizedBox(
-        height: 250,
+        height: 230,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
