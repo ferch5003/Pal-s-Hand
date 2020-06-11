@@ -7,7 +7,6 @@ import 'package:pals_hand/ui/views/home/add_product_view.dart';
 import 'package:pals_hand/ui/widgets/delete_button.dart';
 import 'package:pals_hand/ui/widgets/image_category.dart';
 import 'package:pals_hand/ui/widgets/quantity_container.dart';
-import 'package:provider/provider.dart';
 
 import '../../../locator.dart';
 
@@ -70,7 +69,6 @@ class _MyListViewState extends State<MyListView> {
                         return Center(
                           child: CircularProgressIndicator(),
                         );
-                        break;
                       default:
                         if (snapshot.hasData) {
                           return snapshot.data.length == 0

@@ -9,6 +9,10 @@ class DatabaseService {
   // Collection reference
   final CollectionReference users = Firestore.instance.collection('users');
 
+  Future<QuerySnapshot> getUsers() async {
+    return await users.getDocuments();
+  }
+
   updateUserData(
       {@required String name,
       @required String email,
@@ -81,6 +85,19 @@ class DatabaseService {
   }
 
   updateFriendListData({@required String frienduid}) async {
-    await users.document(uid).updateData({'friend_list': frienduid});
+    DocumentSnapshot user = await users.document(uid).get();
+    String lastFriendUid = user.data['friend_list'];
+    String updateUser = uid;
+    String updateFriend = frienduid;
+    if (lastFriendUid != '') {
+      if (lastFriendUid == frienduid) {
+        updateUser = '';
+        updateFriend = '';
+      } else {
+        await users.document(lastFriendUid).updateData({'friend_list': ''});
+      }
+    }
+    await users.document(uid).updateData({'friend_list': updateFriend});
+    await users.document(frienduid).updateData({'friend_list': updateUser});
   }
 }
