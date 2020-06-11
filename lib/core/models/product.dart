@@ -1,7 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-
 part 'product.g.dart';
-
 @JsonSerializable()
 class Product {
   String name;
@@ -9,8 +7,8 @@ class Product {
   String category;
   int quantity;
 
-  Product({this.name, this.price, this.category, this.quantity = 0});
-
+  Product({this.name, this.price, this.category, this.quantity});
+  
   factory Product.fromJson(Map<String, dynamic> json) =>
       _$ProductFromJson(json);
 

@@ -12,7 +12,6 @@ import 'package:pals_hand/core/viewmodels/login_view_model.dart';
 import 'package:pals_hand/core/viewmodels/signup_view_model.dart';
 import 'core/services/authentication_service.dart';
 import 'core/viewmodels/home/home_view_model.dart';
-
 GetIt locator = GetIt.I;
 
 void setupLocator() {
@@ -21,7 +20,6 @@ void setupLocator() {
   locator.registerLazySingleton(() => DatabaseService());
   locator.registerLazySingleton(() => DialogService());
   locator.registerLazySingleton(() => NavigationService());
-
   locator.registerFactory(() => LoginViewModel());
   locator.registerFactory(() => SignupViewModel());
   locator.registerFactory(() => HomeViewModel());

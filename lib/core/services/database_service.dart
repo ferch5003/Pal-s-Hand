@@ -5,7 +5,6 @@ import 'package:pals_hand/core/models/product.dart';
 class DatabaseService {
   final String uid;
   DatabaseService({this.uid});
-
   // Collection reference
   final CollectionReference users = Firestore.instance.collection('users');
 
@@ -33,6 +32,10 @@ class DatabaseService {
 
   Future<QuerySnapshot> getProducts() async {
     return await users.document(uid).collection('products').getDocuments();
+  }
+
+  Future<QuerySnapshot> getUsers() async {
+    return await users.getDocuments();
   }
 
   addProductData({@required Product product}) async {
@@ -69,7 +72,7 @@ class DatabaseService {
 
   Future<QuerySnapshot> getFriendList() async {
     DocumentSnapshot list = await users.document(uid).get();
-    String frienduid = list.data['friend_list'];
+    String frienduid = list.data['uid'];
     return await users
         .document(frienduid)
         .collection('products')
