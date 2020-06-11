@@ -286,13 +286,15 @@ class _WaitingViewState extends State<WaitingView> {
                     ),
                     child: Text('CERRAR',
                         style: TextStyle(fontWeight: FontWeight.bold)),
-                    onPressed: (widget.myUser.total == 0 ||
-                            widget.friendUser.total == 0)
+                    onPressed: widget.friendUser == null
                         ? null
-                        : () {
-                            model.deliveryReady();
-                            widget.callback();
-                          },
+                        : (widget.myUser.total == 0 ||
+                                widget.friendUser.total == 0)
+                            ? null
+                            : () {
+                                model.deliveryReady();
+                                widget.callback();
+                              },
                   ),
                 ),
               )
