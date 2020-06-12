@@ -9,7 +9,7 @@ class DatabaseService {
   final CollectionReference users = Firestore.instance.collection('users');
 
   Future<DocumentSnapshot> getUser() async {
-    return users.document(uid).get();
+    return await users.document(uid).get();
   }
 
   Future<QuerySnapshot> getUsers() async {
@@ -43,17 +43,7 @@ class DatabaseService {
 
   deliverFinished() async {
     DocumentSnapshot friend = await users.document(uid).get();
-    String friendId = friend.data['friend_list'];
-    users.document(uid).collection('products').getDocuments().then((snapshot) {
-      for (DocumentSnapshot ds in snapshot.documents) {
-        ds.reference.delete();
-      }
-    });
-    users.document(friendId).collection('products').getDocuments().then((snapshot) {
-      for (DocumentSnapshot ds in snapshot.documents) {
-        ds.reference.delete();
-      }
-    });
+    String friendId = await friend.data['friend_list'];
     await users.document(uid).updateData({
       'friend_list': '',
       'ready': false,
@@ -63,6 +53,24 @@ class DatabaseService {
       'friend_list': '',
       'ready': false,
       'total': 0.0,
+    });
+    await users
+        .document(uid)
+        .collection('products')
+        .getDocuments()
+        .then((snapshot) {
+      for (DocumentSnapshot ds in snapshot.documents) {
+        ds.reference.delete();
+      }
+    });
+    await users
+        .document(friendId)
+        .collection('products')
+        .getDocuments()
+        .then((snapshot) {
+      for (DocumentSnapshot ds in snapshot.documents) {
+        ds.reference.delete();
+      }
     });
   }
 

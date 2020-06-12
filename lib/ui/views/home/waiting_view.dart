@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pals_hand/core/enums/viewstate.dart';
 import 'package:pals_hand/core/models/product.dart';
 import 'package:pals_hand/core/models/user.dart';
 import 'package:pals_hand/core/viewmodels/base_view.dart';
@@ -80,224 +81,249 @@ class _WaitingViewState extends State<WaitingView> {
     return BaseView<WaitingViewModel>(
         builder: (context, model, child) => Padding(
             padding: const EdgeInsets.only(bottom: 20, left: 15, right: 15),
-            child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: <
-                    Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
-                  Container(
-                    height: 50,
-                    color: Colors.transparent,
-                    margin: const EdgeInsets.only(top: 23),
+            child: model.state == ViewState.Busy
+                ? Center(
+                    child: CircularProgressIndicator(),
                   )
-                ],
-              ),
-              Container(
-                  child: Text(
-                'Realizar compras',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 40),
-              )),
-              Container(
-                  child: Text(
-                'Mi Lista',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-              )),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Card(
-                      elevation: 3,
-                      color: Colors.orange[200],
-                      semanticContainer: true,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.0),
-                      ),
-                      clipBehavior: Clip.antiAlias,
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                          top: 15.0,
-                          left: 15.0,
-                          right: 20.0,
-                        ),
-                        child: Column(
+                : Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
                           children: <Widget>[
-                            Row(
-                              children: <Widget>[
-                                CircleAvatar(
-                                  backgroundImage:
-                                      ['', null].contains(widget.myUser.image)
-                                          ? AssetImage('assets/users.png')
-                                          : NetworkImage(widget.myUser.image),
-                                  backgroundColor: Colors.orange,
+                            Container(
+                              height: 50,
+                              color: Colors.transparent,
+                              margin: const EdgeInsets.only(top: 23),
+                            )
+                          ],
+                        ),
+                        Container(
+                            child: Text(
+                          'Realizar compras',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 40),
+                        )),
+                        Container(
+                            child: Text(
+                          'Mi Lista',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 20),
+                        )),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Card(
+                                elevation: 3,
+                                color: Colors.orange[200],
+                                semanticContainer: true,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20.0),
                                 ),
-                                Container(
-                                  margin: const EdgeInsets.only(left: 10),
-                                  child: Text(
-                                    widget.myUser.name,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 14.0),
+                                clipBehavior: Clip.antiAlias,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                    top: 15.0,
+                                    left: 15.0,
+                                    right: 20.0,
                                   ),
-                                )
-                              ],
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                widget.myUser.total == null
-                                    ? Text(
-                                        'Total \$0',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold),
-                                      )
-                                    : Text(
-                                        'Total \$${widget.myUser.total}',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold),
+                                  child: Column(
+                                    children: <Widget>[
+                                      Row(
+                                        children: <Widget>[
+                                          CircleAvatar(
+                                            backgroundImage: [
+                                              '',
+                                              null
+                                            ].contains(widget.myUser.image)
+                                                ? AssetImage('assets/users.png')
+                                                : NetworkImage(
+                                                    widget.myUser.image),
+                                            backgroundColor: Colors.orange,
+                                          ),
+                                          Container(
+                                            margin:
+                                                const EdgeInsets.only(left: 10),
+                                            child: Text(
+                                              widget.myUser.name,
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 14.0),
+                                            ),
+                                          )
+                                        ],
                                       ),
-                                FlatButton(
-                                  child: Text(
-                                    'Ver lista',
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: <Widget>[
+                                          widget.myUser.total == null
+                                              ? Text(
+                                                  'Total \$0',
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                )
+                                              : Text(
+                                                  'Total \$${widget.myUser.total}',
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                          FlatButton(
+                                            child: Text(
+                                              'Ver lista',
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                            onPressed: (widget.myUser == null ||
+                                                    widget.myUser.total == 0)
+                                                ? null
+                                                : () {
+                                                    productsModal(
+                                                        widget.myProducts);
+                                                  },
+                                          )
+                                        ],
+                                      )
+                                    ],
                                   ),
-                                  onPressed: (widget.myUser == null ||
-                                          widget.myUser.total == 0)
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Container(
+                            child: Text(
+                          'Lista de mi amigo',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 20),
+                        )),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Card(
+                                elevation: 3,
+                                color: Colors.orange[200],
+                                semanticContainer: true,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20.0),
+                                ),
+                                clipBehavior: Clip.antiAlias,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                    top: 15.0,
+                                    left: 15.0,
+                                    right: 20.0,
+                                  ),
+                                  child: Column(
+                                    children: <Widget>[
+                                      Row(
+                                        children: <Widget>[
+                                          CircleAvatar(
+                                            backgroundImage: widget
+                                                        .friendUser ==
+                                                    null
+                                                ? AssetImage('assets/users.png')
+                                                : ['', null].contains(
+                                                        widget.friendUser.image)
+                                                    ? AssetImage(
+                                                        'assets/users.png')
+                                                    : NetworkImage(widget
+                                                        .friendUser.image),
+                                            backgroundColor: Colors.orange,
+                                          ),
+                                          Container(
+                                            margin:
+                                                const EdgeInsets.only(left: 10),
+                                            child: widget.friendUser == null
+                                                ? Text(
+                                                    'No ha seleccionado a un amigo',
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 14.0),
+                                                  )
+                                                : Text(
+                                                    widget.friendUser.name,
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 14.0),
+                                                  ),
+                                          )
+                                        ],
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: <Widget>[
+                                          widget.friendUser == null
+                                              ? Text(
+                                                  'No hay valor',
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                )
+                                              : Text(
+                                                  'Total \$${widget.friendUser.total}',
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                          FlatButton(
+                                            child: Text(
+                                              'Ver lista',
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                            onPressed: widget.friendUser == null
+                                                ? null
+                                                : widget.friendUser.total == 0
+                                                    ? null
+                                                    : () async {
+                                                        productsModal(widget
+                                                            .friendProducts);
+                                                      },
+                                          )
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          width: double.infinity,
+                          alignment: Alignment.center,
+                          child: Container(
+                            width: 150,
+                            height: 50,
+                            child: MaterialButton(
+                              color: Colors.orange[100],
+                              disabledColor: Colors.orange[50],
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                              child: Text('CERRAR',
+                                  style:
+                                      TextStyle(fontWeight: FontWeight.bold)),
+                              onPressed: widget.friendUser == null
+                                  ? null
+                                  : (widget.myUser.total == 0 ||
+                                          widget.friendUser.total == 0)
                                       ? null
-                                      : () {
-                                          productsModal(widget.myProducts);
+                                      : () async {
+                                          await model.deliveryReady();
+                                          widget.callback();
                                         },
-                                )
-                              ],
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                  child: Text(
-                'Lista de mi amigo',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-              )),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Card(
-                      elevation: 3,
-                      color: Colors.orange[200],
-                      semanticContainer: true,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.0),
-                      ),
-                      clipBehavior: Clip.antiAlias,
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                          top: 15.0,
-                          left: 15.0,
-                          right: 20.0,
-                        ),
-                        child: Column(
-                          children: <Widget>[
-                            Row(
-                              children: <Widget>[
-                                CircleAvatar(
-                                  backgroundImage: widget.friendUser == null
-                                      ? AssetImage('assets/users.png')
-                                      : ['', null]
-                                              .contains(widget.friendUser.image)
-                                          ? AssetImage('assets/users.png')
-                                          : NetworkImage(
-                                              widget.friendUser.image),
-                                  backgroundColor: Colors.orange,
-                                ),
-                                Container(
-                                  margin: const EdgeInsets.only(left: 10),
-                                  child: widget.friendUser == null
-                                      ? Text(
-                                          'No ha seleccionado a un amigo',
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 14.0),
-                                        )
-                                      : Text(
-                                          widget.friendUser.name,
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 14.0),
-                                        ),
-                                )
-                              ],
                             ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                widget.friendUser == null
-                                    ? Text(
-                                        'No hay valor',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold),
-                                      )
-                                    : Text(
-                                        'Total \$${widget.friendUser.total}',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                FlatButton(
-                                  child: Text(
-                                    'Ver lista',
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
-                                  ),
-                                  onPressed: widget.friendUser == null
-                                      ? null
-                                      : widget.friendUser.total == 0
-                                          ? null
-                                          : () async {
-                                              productsModal(
-                                                  widget.friendProducts);
-                                            },
-                                )
-                              ],
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                width: double.infinity,
-                alignment: Alignment.center,
-                child: Container(
-                  width: 150,
-                  height: 50,
-                  child: MaterialButton(
-                    color: Colors.orange[100],
-                    disabledColor: Colors.orange[50],
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    child: Text('CERRAR',
-                        style: TextStyle(fontWeight: FontWeight.bold)),
-                    onPressed: widget.friendUser == null
-                        ? null
-                        : (widget.myUser.total == 0 ||
-                                widget.friendUser.total == 0)
-                            ? null
-                            : () {
-                                model.deliveryReady();
-                                widget.callback();
-                              },
-                  ),
-                ),
-              )
-            ])));
+                          ),
+                        )
+                      ])));
   }
 }

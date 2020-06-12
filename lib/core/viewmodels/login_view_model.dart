@@ -30,8 +30,8 @@ class LoginViewModel extends BaseModel {
         _isLoading = false;
       } else {
         await _dialogService.showDialog(
-          title: 'Login Failure',
-          description: 'Couldn\'t login at this moment. Please try again later',
+          title: 'Fallo de Inicio de Sesión',
+          description: 'No se pudo iniciar sesión en este momento. Vuelva a intentarlo mas tarde',
         );
         _isLoading = false;
 
@@ -39,7 +39,7 @@ class LoginViewModel extends BaseModel {
       }
     } else {
       await _dialogService.showDialog(
-        title: 'Login Failure',
+        title: 'Fallo de Inicio de Sesión',
         description: result,
       );
       _isLoading = false;

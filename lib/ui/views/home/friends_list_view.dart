@@ -32,31 +32,34 @@ class _FriendListViewState extends State<FriendListView> {
                     height: 50,
                     color: Colors.transparent,
                     margin: const EdgeInsets.only(top: 23),
-                    child: FutureBuilder<bool>(
-                      future: model.isReady(),
-                      builder: (context, snapshot) {
-                        switch (snapshot.connectionState) {
-                          case ConnectionState.waiting:
-                            return Container();
-                          default:
-                            if (snapshot.hasData) {
-                              bool ready = snapshot.data;
-                              return Row(children: <Widget>[
-                                Container(
-                                  child: ready
-                                      ? Text('Ya tiene un pedido en proceso')
-                                      : Text('Seleccione a un amigo'),
-                                ),
-                                Container(
-                                    child: ready
-                                        ? Icon(Icons.block)
-                                        : Icon(Icons.account_circle))
-                              ]);
-                            } else if (snapshot.hasError) {}
-                            return Container();
-                        }
-                      },
-                    ),
+                    child: model.state == ViewState.Busy
+                        ? Container()
+                        : FutureBuilder<bool>(
+                            future: model.isReady(),
+                            builder: (context, snapshot) {
+                              switch (snapshot.connectionState) {
+                                case ConnectionState.waiting:
+                                  return Container();
+                                default:
+                                  if (snapshot.hasData) {
+                                    bool ready = snapshot.data;
+                                    return Row(children: <Widget>[
+                                      Container(
+                                        child: ready
+                                            ? Text(
+                                                'Ya tiene un pedido en proceso')
+                                            : Text('Seleccione a un amigo'),
+                                      ),
+                                      Container(
+                                          child: ready
+                                              ? Icon(Icons.block)
+                                              : Icon(Icons.account_circle))
+                                    ]);
+                                  } else if (snapshot.hasError) {}
+                                  return Container();
+                              }
+                            },
+                          ),
                   ),
                 ],
               ),

@@ -22,6 +22,7 @@ class _MyListViewState extends State<MyListView> {
   void initState() {
     super.initState();
     _products = locator<MyListViewModel>().getProducts();
+    locator<MyListViewModel>().isReady();
   }
 
   @override
